@@ -1,23 +1,36 @@
 "use strict"
-const container = document.querySelector(".container")
 
 
 
-
+//function to create divs for row with column nested inside.
 function makeGrid(number) {
-        for (let i =0; i < number; i++) {
-        let containerHeight = container.clientHeight;
-        let containerWidth = container.clientWidth;
-        let square = document.createElement("div");
-        square.classList.add("square");
-        container.appendChild(square);
-        let squareHeight = square.clientHeight;
-        let squareWidth = square.clientWidth;
-        let height = containerHeight / squareHeight;
-        square.style.height = `${height}px`;
-        let width = containerWidth / squareWidth;
-        square.style.width = `${width}px`;
+    const container = document.querySelector("#container");
+    if (number < 100) {
+    for (let i=0; i < number; i++) {
+        let row = document.createElement("div");
+        row.classList.add("row");
+        container.appendChild(row);
+
+        for (let i=0; i < number; i++) {
+            let column = document.createElement("div");
+            column.classList.add("column");
+            row.appendChild(column);
+            column.addEventListener("mouseenter", (event) => {
+                column.setAttribute("style", "background: black");
+            });
+            }
+        }
     }
 }
-
 makeGrid(16);
+
+let buttonContainer = document.querySelector("#buttonContainer");
+let resetButton = document.createElement("button");
+resetButton.classList.add("reset");
+resetButton.textContent= "Erase!";
+buttonContainer.appendChild(resetButton);
+//make button to reset the grid and choose different dimensions
+resetButton.addEventListener("click", () => {
+    container.replaceChildren();
+    makeGrid(16);
+});
